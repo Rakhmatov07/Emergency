@@ -8,7 +8,7 @@ const login = async(req, res) => {
         const {username, phone_number, phone_type, location, language} = req.body;
         const isValid = authValidation(username, phone_number);
         console.log(isValid);
-        if(!isValid) return res.status(403).json({message: 'Validation Error'});
+        if(isValid) return res.status(403).json({message: 'Validation Error'});
         
         const user = await fetchOne('SELECT * FROM users WHERE phone_number=$1;', phone_number);
         if(user){
@@ -18,6 +18,7 @@ const login = async(req, res) => {
             const country = await reverseGeocode(location.lat, location.long);
             const newUser = await fetchOne('INSERT INTO users(username, phone_number, phone_type, country, language) VALUES($1, $2, $3, $4, $5) RETURNING*', username, phone_number, phone_type, country, language);
             const token = jwt.sign(newUser.user_id);
+            console.log(newUser);
             return res.status(200).json({message: 'Success', token});
         } 
     } catch (error) {
@@ -27,7 +28,12 @@ const login = async(req, res) => {
     
 };
 
+const loginPage = (req, res) => {
+    return res.render('registration');
+}
+
 
 module.exports = {
-    login
+    login,
+    loginPage
 }

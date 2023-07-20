@@ -7,6 +7,9 @@ const modules = (app) => {
     app.use(express.urlencoded({extended: true}));
     app.use(cors({origin: '*'}));
     app.use('/api', app_router);
+
+    app.set("view engine", "ejs");
+    app.set("views", "src/views");
 }
 
 module.exports = modules;

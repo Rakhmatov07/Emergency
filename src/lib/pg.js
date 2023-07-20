@@ -2,7 +2,7 @@ const {Pool} = require('pg');
 require("dotenv").config()
 
 const pool = new Pool({
-    connectionString: process.env.PG_URL
+    connectionString: process.env.PG_URL // "postgres://postgres:1207@localhost:5432/emergency"
 });
 
 const fetch = async(SQL, ...values) => {

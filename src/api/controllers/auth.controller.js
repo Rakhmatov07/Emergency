@@ -6,8 +6,8 @@ const reverseGeocode = require('../../lib/location');
 const login = async(req, res) => {
     try {
         const {username, phone_number, phone_type, location, language} = req.body;
-        const isValid = authValidation(username, phone_number);
         console.log(isValid);
+        const isValid = authValidation(username, phone_number);
         if(isValid) return res.status(403).json({message: 'Validation Error'});
         
         const user = await fetchOne('SELECT * FROM users WHERE phone_number=$1;', phone_number);
